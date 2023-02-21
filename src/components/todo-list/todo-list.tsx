@@ -1,7 +1,12 @@
 import React, { FC } from "react";
 import { PropsTypes } from "@/types/todo-list.type";
 
-export const Todolist: FC<PropsTypes> = ({ title, tasks }) => {
+export const Todolist: FC<PropsTypes> = ({
+  title,
+  tasks,
+  removeTask,
+  changeFilter,
+}) => {
   return (
     <div className="Todolist">
       <div>{title}</div>
@@ -15,14 +20,15 @@ export const Todolist: FC<PropsTypes> = ({ title, tasks }) => {
             <li key={id}>
               <input type="checkbox" checked={isDone} />
               <span>{task}</span>
+              <button onClick={() => removeTask(id)}>X</button>
             </li>
           );
         })}
       </ul>
       <div>
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
+        <button onClick={() => changeFilter("all")}>All</button>
+        <button onClick={() => changeFilter("active")}>Active</button>
+        <button onClick={() => changeFilter("completed")}>Completed</button>
       </div>
     </div>
   );
