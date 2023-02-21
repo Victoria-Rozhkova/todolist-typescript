@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { PropsTypes } from "../../types/todo-list.type";
+import { PropsTypes } from "@/types/todo-list.type";
 
 export const Todolist: FC<PropsTypes> = ({ title, tasks }) => {
   return (

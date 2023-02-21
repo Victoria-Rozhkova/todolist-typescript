@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
-import { Todolist } from "./components/todo-list/todo-list";
+import "@/App.css";
+import { Todolist } from "@/components/todo-list/todo-list";
 
 function App() {
   const data = [
