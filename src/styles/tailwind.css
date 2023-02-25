@@ -1,0 +1,40 @@
+@import url("./stylesheet.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  html {
+    font-family: Roboto, system-ui, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    @apply bg-gray-400
+  }
+
+}
+
+input,
+input:focus {
+  outline: none;
+}
+
+textarea,
+textarea:focus {
+  outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+}
+
+button {
+  outline: 0;
+}
