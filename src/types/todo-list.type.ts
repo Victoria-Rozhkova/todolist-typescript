@@ -1,12 +1,13 @@
 export type PropsTypes = {
   title: string;
   tasks: TaskType[];
-  removeTask: (id: number) => void;
+  removeTask: (id: string) => void;
+  addTask: (task: string) => void;
   changeFilter: (filter: FilterValues) => void;
 };
 
-type TaskType = {
-  id: number;
+export type TaskType = {
+  id: string;
   task: string;
   isDone: boolean;
 };
