@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 export const getTitleClassName = () => {
   return "text-center text-2xl my-[10px]";
 };
@@ -6,8 +8,8 @@ export const getListWrapperClassName = () => {
   return "my-[10px] flex flex-col gap-[6px]";
 };
 
-export const getListClassName = () => {
-  return "flex gap-[15px] w-full";
+export const getListClassName = (isDone: boolean) => {
+  return clsx("flex gap-[15px] w-full", isDone && "opacity-[0.5]");
 };
 
 export const getListItemClassName = () => {
@@ -16,4 +18,16 @@ export const getListItemClassName = () => {
 
 export const getFilterWrapperClassName = () => {
   return "flex justify-between mt-[10px]";
+};
+
+export const getInputErrorClassName = (error: string) => {
+  return clsx(error && "border border-[#DC143C]");
+};
+
+export const getTextErrorClassName = (error: string) => {
+  return clsx(error && "text-[#DC143C]");
+};
+
+export const getActiveFilterClassName = (isActive: boolean) => {
+  return clsx(isActive && "bg-[#228B22]");
 };
