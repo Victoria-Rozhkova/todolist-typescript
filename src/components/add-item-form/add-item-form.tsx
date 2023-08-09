@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import Icon from "../ui/icon";
+import {Icon} from "@/components/ui";
 import {
   getInputErrorClassName,
   getTextErrorClassName,
@@ -32,7 +32,7 @@ const AddItemForm: FC<AddItemFormProps> = (props) => {
     setValue("");
   };
 
-  const onKeyDownTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter") {
       addTaskHandler();
     }
@@ -51,7 +51,7 @@ const AddItemForm: FC<AddItemFormProps> = (props) => {
           value={value}
           placeholder={placeholder}
           onChange={onChangeHandler}
-          onKeyDown={onKeyDownTaskHandler}
+          onKeyDown={onKeyDownHandler}
         />
         <button onClick={addTaskHandler}>
           <Icon name="Plus" />

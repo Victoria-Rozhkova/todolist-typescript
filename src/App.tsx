@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { v1 } from "uuid";
 import "@/App.css";
 
-import AddItemForm from "@/components/add-item-form";
-import Todolist, { FilterValues, Task, Tasks, Todo } from "@/components/todo-list";
+import { FilterValues, Task, Tasks, Todo } from "@/components/todo-list";
+import { AddItemForm, Todolist } from "@/components";
 
 function App() {
   const todolistId1 = v1();
@@ -66,9 +66,25 @@ function App() {
   };
 
   const changeFilter = (filter: FilterValues, todolistId: string) => {
-    const todo = todolists.find((todo) => todo.id === todolistId);
-    if (todo) {
-      todo.filter = filter;
+    const todolist = todolists.find((todolist) => todolist.id === todolistId);
+    if (todolist) {
+      todolist.filter = filter;
+      setTodolist([...todolists]);
+    }
+  };
+
+  const onEditTask = (value: string, taskId: string, todolistId: string) => {
+    const task = tasks[todolistId].find((taskItem) => taskItem.id === taskId);
+    if (task) {
+      task.task = value;
+      setTasks({ ...tasks });
+    }
+  };
+
+  const onEditHeading = (value: string, todolistId: string) => {
+    const todolist = todolists.find((todolist) => todolist.id === todolistId);
+    if (todolist) {
+      todolist.title = value;
       setTodolist([...todolists]);
     }
   };
@@ -103,6 +119,8 @@ function App() {
               changeFilter={changeFilter}
               changeStatus={changeStatus}
               removeTodoList={removeTodoList}
+              onEditTask={onEditTask}
+              onEditHeading={onEditHeading}
             />
           );
         })}

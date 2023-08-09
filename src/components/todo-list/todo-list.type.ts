@@ -8,6 +8,8 @@ export type TodolistProps = {
   changeFilter: (filter: FilterValues, todolistId: string) => void;
   changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void;
   removeTodoList: (id: string) => void;
+  onEditTask: (value: string, id: string, todoListId: string) => void;
+  onEditHeading: (value: string, todoListId: string) => void;
 };
 
 export type Task = {

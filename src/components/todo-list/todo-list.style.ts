@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 export const getTitleClassName = () => {
-  return "text-center text-2xl my-[10px]";
+  return "text-center text-2xl my-[10px] cursor-pointer";
 };
 
 export const getListWrapperClassName = () => {
@@ -16,5 +16,5 @@ export const getListClassName = (isDone: boolean) => {
 };
 
 export const getListItemClassName = () => {
-  return "flex justify-between w-full";
+  return "flex justify-between w-full cursor-pointer";
 };

@@ -10,7 +10,7 @@ const Filters: FC<FiltersProps> = ({ filters, currentFilter, onChange }) => {
     <div className={getFilterWrapperClassName()}>
       {filters.map(({title}) => {
         return (
-          <button
+          <button key={title}
             className={getActiveFilterClassName(
               currentFilter === title.toLowerCase()
             )}

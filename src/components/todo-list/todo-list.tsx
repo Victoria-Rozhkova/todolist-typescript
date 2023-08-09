@@ -1,14 +1,13 @@
 import React, { FC, useState } from "react";
 
-import Icon from "@/components/ui/icon";
+import { Icon } from "@/components/ui";
+import { AddItemForm, EditItem, Filters } from "@/components";
 import {
   getListClassName,
   getListItemClassName,
   getListWrapperClassName,
   getTitleClassName,
 } from "./todo-list.style";
-import AddItemForm from "../add-item-form";
-import Filters from "../filters";
 import { FilterValues, TodolistProps } from "./todo-list.type";
 
 const Todolist: FC<TodolistProps> = ({
@@ -21,6 +20,8 @@ const Todolist: FC<TodolistProps> = ({
   changeStatus,
   currentFilter,
   removeTodoList,
+  onEditTask,
+  onEditHeading,
 }) => {
   const [show, setShow] = useState(false);
   const onChangeCheckboxHandler = (taskId: string, isDone: boolean) => {
@@ -35,6 +36,14 @@ const Todolist: FC<TodolistProps> = ({
     changeFilter(filter as FilterValues, todoListId);
   };
 
+  const onEditTaskHeandler = (value: string, id: string) => {
+    onEditTask(value, id, todoListId);
+  };
+
+  const onEditHeadingHandler = (value: string) => {
+    onEditHeading(value, todoListId);
+  };
+
   const filters = [
     { title: "All" },
     { title: "Active" },
@@ -43,15 +52,17 @@ const Todolist: FC<TodolistProps> = ({
 
   return (
     <div
-      className="border rounded-lg p-[20px] bg-gray-300 relative"
+      className="h-full border rounded-lg p-[20px] bg-gray-300 relative"
       onMouseOver={() => setShow(true)}
       onMouseOut={() => setShow(false)}
     >
       <div className="flex gap-[10px]">
-        <div className={getTitleClassName()}>{title}</div>
+        <div className={getTitleClassName()}>
+          <EditItem title={title} onEdit={onEditHeadingHandler} />
+        </div>
         {show && (
           <div
-            className="absolute top-[12px] right-[12px]"
+            className="absolute top-[6px] right-[6px]"
             onClick={() => removeTodoList(todoListId)}
           >
             <Icon name="Delete" />
@@ -71,7 +82,10 @@ const Todolist: FC<TodolistProps> = ({
                 }
               />
               <div className={getListItemClassName()}>
-                <span>{task}</span>
+                <EditItem
+                  title={task}
+                  onEdit={(value) => onEditTaskHeandler(value, id)}
+                />
                 <button
                   className="opacity-[1]"
                   onClick={() => removeTask(id, todoListId)}
