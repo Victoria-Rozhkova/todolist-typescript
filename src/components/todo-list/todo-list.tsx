@@ -1,18 +1,17 @@
 import React, { FC, useState } from "react";
 
-import { TodolistProps } from "@/components/todo-list/todo-list.type";
 import Icon from "@/components/ui/icon";
 import {
-  getActiveFilterClassName,
-  getFilterWrapperClassName,
   getListClassName,
   getListItemClassName,
   getListWrapperClassName,
   getTitleClassName,
 } from "./todo-list.style";
 import AddItemForm from "../add-item-form";
+import Filters from "../filters";
+import { FilterValues, TodolistProps } from "./todo-list.type";
 
-export const Todolist: FC<TodolistProps> = ({
+const Todolist: FC<TodolistProps> = ({
   todoListId,
   title,
   tasks,
@@ -32,21 +31,34 @@ export const Todolist: FC<TodolistProps> = ({
     addTask(value, todoListId);
   };
 
+  const changeFilterHandler = (filter: string) => {
+    changeFilter(filter as FilterValues, todoListId);
+  };
+
+  const filters = [
+    { title: "All" },
+    { title: "Active" },
+    { title: "Completed" },
+  ];
+
   return (
     <div
-      className="Todolist"
+      className="border rounded-lg p-[20px] bg-gray-300 relative"
       onMouseOver={() => setShow(true)}
       onMouseOut={() => setShow(false)}
     >
       <div className="flex gap-[10px]">
         <div className={getTitleClassName()}>{title}</div>
         {show && (
-          <div onClick={() => removeTodoList(todoListId)}>
+          <div
+            className="absolute top-[12px] right-[12px]"
+            onClick={() => removeTodoList(todoListId)}
+          >
             <Icon name="Delete" />
           </div>
         )}
       </div>
-      <AddItemForm onSubmit={addTaskHandler} />
+      <AddItemForm onSubmit={addTaskHandler} placeholder="Add task" />
       <ul className={getListWrapperClassName()}>
         {tasks.map(({ id, isDone, task }) => {
           return (
@@ -71,26 +83,13 @@ export const Todolist: FC<TodolistProps> = ({
           );
         })}
       </ul>
-      <div className={getFilterWrapperClassName()}>
-        <button
-          className={getActiveFilterClassName(currentFilter === "all")}
-          onClick={() => changeFilter("all", todoListId)}
-        >
-          All
-        </button>
-        <button
-          className={getActiveFilterClassName(currentFilter === "active")}
-          onClick={() => changeFilter("active", todoListId)}
-        >
-          Active
-        </button>
-        <button
-          className={getActiveFilterClassName(currentFilter === "completed")}
-          onClick={() => changeFilter("completed", todoListId)}
-        >
-          Completed
-        </button>
-      </div>
+      <Filters
+        currentFilter={currentFilter}
+        filters={filters}
+        onChange={changeFilterHandler}
+      />
     </div>
   );
 };
+
+export default Todolist;

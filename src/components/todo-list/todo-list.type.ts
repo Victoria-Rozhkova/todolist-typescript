@@ -1,7 +1,7 @@
 export type TodolistProps = {
   todoListId: string;
   title: string;
-  tasks: TaskType[];
+  tasks: Task[];
   currentFilter: FilterValues;
   removeTask: (id: string, todolistId: string) => void;
   addTask: (task: string, todolistId: string) => void;
@@ -10,10 +10,16 @@ export type TodolistProps = {
   removeTodoList: (id: string) => void;
 };
 
-export type TaskType = {
+export type Task = {
   id: string;
   task: string;
   isDone: boolean;
 };
 
+export type Tasks = {
+  [key: string]: Task[];
+};
+
 export type FilterValues = "all" | "active" | "completed";
+
+export type Todo = { id: string; title: string; filter: FilterValues };

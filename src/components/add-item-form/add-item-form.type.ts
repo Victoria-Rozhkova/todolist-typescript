@@ -1,6 +1,7 @@
 import { ChangeEvent, KeyboardEvent } from "react";
 
 export type AddItemFormProps = {
+  placeholder?: string;
   error?: string;
   value?: string;
   onSubmit: (value: string) => void;

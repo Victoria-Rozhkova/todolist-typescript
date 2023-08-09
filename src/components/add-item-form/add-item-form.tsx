@@ -13,7 +13,7 @@ import {
 import { AddItemFormProps } from "./add-item-form.type";
 
 const AddItemForm: FC<AddItemFormProps> = (props) => {
-  const { error, onKeyDown, onSubmit } = props;
+  const { error, onKeyDown, onSubmit, placeholder='' } = props;
 
   const [value, setValue] = useState<string>("");
   const [errorItem, setErrorItem] = useState<string>("");
@@ -49,6 +49,7 @@ const AddItemForm: FC<AddItemFormProps> = (props) => {
         <input
           className={getInputErrorClassName(errorItem)}
           value={value}
+          placeholder={placeholder}
           onChange={onChangeHandler}
           onKeyDown={onKeyDownTaskHandler}
         />
