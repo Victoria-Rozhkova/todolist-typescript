@@ -20,13 +20,9 @@ export const getFilterWrapperClassName = () => {
   return "flex justify-between mt-[10px]";
 };
 
-export const getInputErrorClassName = (error: string) => {
-  return clsx(error && "border border-[#DC143C]");
-};
 
-export const getTextErrorClassName = (error: string) => {
-  return clsx(error && "text-[#DC143C]");
-};
+
+
 
 export const getActiveFilterClassName = (isActive: boolean) => {
   return clsx(isActive && "bg-[#228B22]");
