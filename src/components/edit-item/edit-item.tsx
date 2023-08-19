@@ -1,5 +1,7 @@
 import React, { FC, KeyboardEvent, useState } from "react";
+import { TextField } from "@mui/material";
 import { EditItemProps } from "./edit-item.type";
+import { getTitleClassName } from "./edit-item.style";
 
 const EditItem: FC<EditItemProps> = ({ title, onEdit }) => {
   const [editMode, setEditMode] = useState(false);
@@ -21,16 +23,21 @@ const EditItem: FC<EditItemProps> = ({ title, onEdit }) => {
     }
   };
 
-  return !editMode ? (
-    <span onDoubleClick={activateEditMode}>{title}</span>
-  ) : (
-    <input className="w-full p-[5px] rounded"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      autoFocus
-      onKeyDown={onKeyDownHandler}
-      onBlur={onEditHandler}
-    />
+  return (
+    <div className={getTitleClassName()}>
+      {!editMode ? (
+        <span onDoubleClick={activateEditMode}>{title}</span>
+      ) : (
+        <TextField
+          variant="standard"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          autoFocus
+          onKeyDown={onKeyDownHandler}
+          onBlur={onEditHandler}
+        />
+      )}
+    </div>
   );
 };
 

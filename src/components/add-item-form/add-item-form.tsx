@@ -5,15 +5,13 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import {Icon} from "@/components/ui";
-import {
-  getInputErrorClassName,
-  getTextErrorClassName,
-} from "./add-item-form.style";
+import { Button, TextField } from "@mui/material";
+import { Add } from "@mui/icons-material";
+
 import { AddItemFormProps } from "./add-item-form.type";
 
 const AddItemForm: FC<AddItemFormProps> = (props) => {
-  const { error, onKeyDown, onSubmit, placeholder='' } = props;
+  const { error, onKeyDown, onSubmit, placeholder = "" } = props;
 
   const [value, setValue] = useState<string>("");
   const [errorItem, setErrorItem] = useState<string>("");
@@ -45,21 +43,21 @@ const AddItemForm: FC<AddItemFormProps> = (props) => {
 
   return (
     <div>
-      <div className="flex">
-        <input
-          className={getInputErrorClassName(errorItem)}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChangeHandler}
-          onKeyDown={onKeyDownHandler}
-        />
-        <button onClick={addTaskHandler}>
-          <Icon name="Plus" />
-        </button>
-      </div>
-      {errorItem && (
-        <p className={getTextErrorClassName(errorItem)}>{errorItem}</p>
-      )}
+      <TextField
+        value={value}
+        label={placeholder}
+        error={!!errorItem}
+        helperText={errorItem}
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
+      />
+      <Button
+        onClick={addTaskHandler}
+        className="!mt-[10px] !ml-[10px]"
+        variant="contained"
+      >
+        <Add />
+      </Button>
     </div>
   );
 };

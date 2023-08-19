@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { Button } from "@mui/material";
 import { FiltersProps } from "./filters.type";
 import {
   getActiveFilterClassName,
@@ -8,16 +9,27 @@ import {
 const Filters: FC<FiltersProps> = ({ filters, currentFilter, onChange }) => {
   return (
     <div className={getFilterWrapperClassName()}>
-      {filters.map(({title}) => {
+      {filters.map(({ title }) => {
         return (
-          <button key={title}
+          <Button
+            variant={
+              currentFilter === title.toLowerCase() ? "contained" : "text"
+            }
+            color={
+              title === "Completed"
+                ? "success"
+                : title === "Active"
+                ? "secondary"
+                : "primary"
+            }
+            key={title}
             className={getActiveFilterClassName(
               currentFilter === title.toLowerCase()
             )}
             onClick={() => onChange(title.toLowerCase())}
           >
             {title}
-          </button>
+          </Button>
         );
       })}
     </div>

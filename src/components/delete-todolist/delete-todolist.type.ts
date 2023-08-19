@@ -1,0 +1,1 @@
+export type DeleteTodolistProps = { show: boolean; onDelete: () => void };
