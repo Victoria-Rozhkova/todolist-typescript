@@ -1,20 +1,12 @@
 import React, { useState } from "react";
 import { v1 } from "uuid";
-import {
-  AppBar,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Container, Grid } from "@mui/material";
 import "@/App.css";
 
 import { Tasks, Todo } from "@/components/todo-list";
 import { AddItemForm } from "@/components";
 import TodoListPage from "./pages/todo-list.page";
+import Header from "@/components/mui/header";
 
 function App() {
   const todolistId1 = v1();
@@ -46,23 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
+      <Header />
       <Container fixed>
         <Grid container>
           <div className="py-[20px]">
