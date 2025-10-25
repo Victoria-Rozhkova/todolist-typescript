@@ -8,7 +8,9 @@ import {
   Tasks,
 } from "@/components";
 import { ConfirmDeleteModal } from "@/components/mui";
-import { FilterValues, Task, TodolistProps } from "./todo-list.type";
+import { TodolistProps } from "./todo-list.type";
+import { FilterEnum } from "@/types/todolist/todolist.type";
+import { Task } from "@/types/task/tasks.type";
 
 const Todolist: FC<TodolistProps> = (props) => {
   const {
@@ -38,10 +40,10 @@ const Todolist: FC<TodolistProps> = (props) => {
   };
 
   const changeFilterHandler = (filter: string) => {
-    changeFilter(filter as FilterValues, todoListId);
+    changeFilter(filter as FilterEnum, todoListId);
   };
 
-  const onEditTaskHeandler = (value: string, id: string) => {
+  const onEditTaskHandler = (value: string, id: string) => {
     onEditTask(value, id, todoListId);
   };
 
@@ -91,7 +93,7 @@ const Todolist: FC<TodolistProps> = (props) => {
         tasks={tasks}
         open={openDeletingTaskModal}
         setOpen={setOpenDeletingTaskModal}
-        onEdit={onEditTaskHeandler}
+        onEdit={onEditTaskHandler}
         onChangeIsDone={onChangeIsDone}
         onConfirm={onDeleteTask}
       />

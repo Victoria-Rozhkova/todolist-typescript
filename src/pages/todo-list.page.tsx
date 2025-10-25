@@ -1,27 +1,36 @@
-import React, { FC } from "react";
-import { v1 } from "uuid";
+import React, {Dispatch, FC} from "react";
 import { Grid, Paper } from "@mui/material";
 
 import { Todolist } from "@/components";
-import { FilterValues, Task, Tasks, Todo } from "@/components/todo-list";
+import { FilterEnum, TodoList } from "@/types/todolist/todolist.type";
+import { Tasks } from "@/types/task/tasks.type";
+import {
+  addTaskActionCreator, changeTaskActionCreator,
+  changeTaskStatusActionCreator,
+  removeTaskActionCreator
+} from "@/store/tasks-action-creators";
+import { TasksActionsType } from "@/types/reducer/tasks-reducer-type";
+import {
+  changeTodoListFilterActionCreator,
+  changeTodoListTitleActionCreator,
+  removeTodoListActionCreator
+} from "@/store/todolists-action-creators";
+import { TodolistActionsType } from "@/types/reducer/todolist-reducer-type";
 
 const TodoListPage: FC<{
-  todolists: Todo[];
+  todoLists: TodoList[];
   tasks: Tasks;
-  changeTasks: (tasks: Tasks) => void;
-  changeTodolist: (todos: Todo[]) => void;
-}> = ({ todolists, tasks, changeTasks, changeTodolist }) => {
+  changeTasks: Dispatch<TasksActionsType>;
+  changeTodoList: Dispatch<TodolistActionsType>;
+}> = ({ todoLists, tasks, changeTasks, changeTodoList }) => {
   const removeTask = (id: string, todolistId: string) => {
-    const filteredTasks = tasks[todolistId].filter((t) => t.id !== id);
-    tasks[todolistId] = filteredTasks;
-    changeTasks({ ...tasks });
+    const action = removeTaskActionCreator(id,todolistId)
+    changeTasks(action)
   };
 
   const addTask = (task: string, todolistId: string) => {
-    const newTask: Task = { id: v1(), task, isDone: false };
-    const updatedTasks = [newTask, ...tasks[todolistId]];
-    tasks[todolistId] = updatedTasks;
-    changeTasks({ ...tasks });
+    const action = addTaskActionCreator(task, todolistId);
+    changeTasks(action)
   };
 
   const changeStatus = (
@@ -29,64 +38,52 @@ const TodoListPage: FC<{
     isDone: boolean,
     todolistId: string
   ) => {
-    const task = tasks[todolistId].find((taskItem) => taskItem.id === taskId);
-    if (task) {
-      task.isDone = isDone;
-      changeTasks({ ...tasks });
-    }
+    const action = changeTaskStatusActionCreator(todolistId,taskId,isDone);
+    changeTasks(action)
   };
 
   const removeTodoList = (id: string) => {
-    const filteredTodos = todolists.filter((list) => list.id !== id);
-    changeTodolist(filteredTodos);
-    delete tasks[id];
-    changeTasks({ ...tasks });
+    const action = removeTodoListActionCreator(id);
+    changeTodoList(action);
+    changeTasks(action);
   };
 
-  const changeFilter = (filter: FilterValues, todolistId: string) => {
-    const todolist = todolists.find((todolist) => todolist.id === todolistId);
-    if (todolist) {
-      todolist.filter = filter;
-      changeTodolist([...todolists]);
-    }
+  const changeFilter = (filter: FilterEnum, todolistId: string) => {
+    const action = changeTodoListFilterActionCreator(todolistId,filter)
+
+    changeTodoList(action);
   };
 
   const onEditTask = (value: string, taskId: string, todolistId: string) => {
-    const task = tasks[todolistId].find((taskItem) => taskItem.id === taskId);
-    if (task) {
-      task.task = value;
-      changeTasks({ ...tasks });
-    }
+    const action = changeTaskActionCreator(todolistId,taskId,value);
+
+    changeTasks(action);
   };
 
   const onEditHeading = (value: string, todolistId: string) => {
-    const todolist = todolists.find((todolist) => todolist.id === todolistId);
-    if (todolist) {
-      todolist.title = value;
-      changeTodolist([...todolists]);
-    }
+    const action = changeTodoListTitleActionCreator(todolistId,value);
+    changeTodoList(action);
   };
 
   return (
     <>
-      {todolists.map((todoList) => {
+      {todoLists.map((todoList) => {
         let taskForTodolist = tasks[todoList.id];
         if (todoList.filter === "active") {
           taskForTodolist = taskForTodolist.filter(
-            (task) => task.isDone === false
+            (task) => !task.isDone
           );
         }
         if (todoList.filter === "completed") {
           taskForTodolist = taskForTodolist.filter(
-            (task) => task.isDone === true
+            (task) => task.isDone
           );
         }
         return (
-          <Grid item>
+          <Grid item key={todoList.id}>
             <Paper>
               <Todolist
                 todoListId={todoList.id}
-                key={todoList.id}
                 title={todoList.title}
                 tasks={taskForTodolist}
                 removeTask={removeTask}

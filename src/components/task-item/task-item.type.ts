@@ -1,4 +1,4 @@
-import { Task } from "../todo-list";
+import { Task } from "@/types/task/tasks.type";
 
 export type TaskItemProps = {
   task: Task;

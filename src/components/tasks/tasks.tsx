@@ -1,10 +1,10 @@
 import React, { FC, useState } from "react";
 import TaskItem from "../task-item";
 import { getListWrapperClassName } from "./tasks.style";
-import { Task } from "../todo-list";
 import { ConfirmDeleteModal } from "../mui";
 import { TasksProps } from "./tasks.type";
 import Empty from "../empty";
+import { Task } from "@/types/task/tasks.type";
 
 const Tasks: FC<TasksProps> = (props) => {
   const { tasks, onEdit, onChangeIsDone, open, setOpen, onConfirm } = props;
