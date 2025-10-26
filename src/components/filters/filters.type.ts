@@ -1,5 +1,7 @@
+import { FilterTitleEnum, FilterEnum } from "@/types/todolist/todolist.type";
+
 export type FiltersProps = {
-  filters: { title: string }[];
+  filters: { title: FilterTitleEnum }[];
   currentFilter: string;
-  onChange: (filter: string) => void;
+  onChange: (filter: FilterEnum) => void;
 };

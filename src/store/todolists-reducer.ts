@@ -1,8 +1,17 @@
 import { FilterEnum, TodoList } from "@/types/todolist/todolist.type";
 import { TodolistActionsType } from "@/types/reducer/todolist-reducer-type";
+import {v1} from "uuid";
+
+export const todoListId1 = v1();
+export const todoListId2 = v1();
+
+const initialState: TodoList[] = [
+  { id: todoListId1, title: "What to learn", filter: FilterEnum.ALL },
+  { id: todoListId2, title: "What to buy", filter: FilterEnum.ALL },
+]
 
 export const todoListsReducer = (
-  state: TodoList[],
+  state: TodoList[] = initialState,
   action: TodolistActionsType
 ): TodoList[] => {
   switch (action.type) {
@@ -41,6 +50,6 @@ export const todoListsReducer = (
     }
 
     default:
-      throw new Error("Unknown ACTION TYPE");
+      return state
   }
 };

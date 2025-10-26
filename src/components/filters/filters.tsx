@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Button } from "@mui/material";
 import { FiltersProps } from "./filters.type";
+import { FilterTitleEnum, FilterEnum } from "@/types/todolist/todolist.type";
 import {
   getActiveFilterClassName,
   getFilterWrapperClassName,
@@ -16,9 +17,9 @@ const Filters: FC<FiltersProps> = ({ filters, currentFilter, onChange }) => {
               currentFilter === title.toLowerCase() ? "contained" : "text"
             }
             color={
-              title === "Completed"
+              title === FilterTitleEnum.COMPLETED
                 ? "success"
-                : title === "Active"
+                : title === FilterTitleEnum.ACTIVE
                 ? "secondary"
                 : "primary"
             }
@@ -26,7 +27,7 @@ const Filters: FC<FiltersProps> = ({ filters, currentFilter, onChange }) => {
             className={getActiveFilterClassName(
               currentFilter === title.toLowerCase()
             )}
-            onClick={() => onChange(title.toLowerCase())}
+            onClick={() => onChange(title.toLowerCase() as FilterEnum)}
           >
             {title}
           </Button>

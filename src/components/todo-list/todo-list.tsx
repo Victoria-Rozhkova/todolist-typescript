@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import {
   AddItemForm,
@@ -9,46 +10,58 @@ import {
 } from "@/components";
 import { ConfirmDeleteModal } from "@/components/mui";
 import { TodolistProps } from "./todo-list.type";
-import { FilterEnum } from "@/types/todolist/todolist.type";
+import { FilterTitleEnum, FilterEnum } from "@/types/todolist/todolist.type";
 import { Task } from "@/types/task/tasks.type";
+import {
+  changeTodoListFilterActionCreator,
+  changeTodoListTitleActionCreator,
+  removeTodoListActionCreator
+} from "@/store/todolists-action-creators";
+import {
+  addTaskActionCreator, changeTaskActionCreator,
+  changeTaskStatusActionCreator,
+  removeTaskActionCreator
+} from "@/store/tasks-action-creators";
 
 const Todolist: FC<TodolistProps> = (props) => {
   const {
     todoListId,
     title,
     tasks,
-    addTask,
-    removeTask,
-    changeFilter,
-    changeStatus,
     currentFilter,
-    removeTodoList,
-    onEditTask,
-    onEditHeading,
   } = props;
+  const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   const [openDeletingTodolistModal, setOpenDeletingTodolistModal] =
     useState(false);
   const [openDeletingTaskModal, setOpenDeletingTaskModal] = useState(false);
+
   const onChangeIsDone = (isDone: boolean, taskId: string) => {
-    changeStatus(taskId, isDone, todoListId);
+    const action = changeTaskStatusActionCreator(todoListId, taskId, isDone);
+    dispatch(action)
   };
 
   const addTaskHandler = (value: string) => {
-    addTask(value, todoListId);
+    const action = addTaskActionCreator(value, todoListId);
+    dispatch(action)
   };
 
-  const changeFilterHandler = (filter: string) => {
-    changeFilter(filter as FilterEnum, todoListId);
+  const changeFilterHandler = (filter: FilterEnum) => {
+    const action = changeTodoListFilterActionCreator(todoListId, filter)
+
+    dispatch(action);
   };
 
   const onEditTaskHandler = (value: string, id: string) => {
-    onEditTask(value, id, todoListId);
+    const action = changeTaskActionCreator(todoListId,id,value);
+
+    dispatch(action);
   };
 
   const onEditHeadingHandler = (value: string) => {
-    onEditHeading(value, todoListId);
+    const action = changeTodoListTitleActionCreator(todoListId,value);
+    dispatch(action);
   };
 
   const onOpenDeletingTodolistModal = () => {
@@ -56,19 +69,23 @@ const Todolist: FC<TodolistProps> = (props) => {
   };
 
   const onDeleteTask = (task: Task) => {
-    removeTask(task.id, todoListId);
+    const action = removeTaskActionCreator(task.id, todoListId)
+    dispatch(action)
+
     setOpenDeletingTaskModal(false);
   };
 
   const onDeleteTodolist = () => {
-    removeTodoList(todoListId);
+    const action = removeTodoListActionCreator(todoListId);
+    dispatch(action);
+
     setOpenDeletingTodolistModal(false);
   };
 
   const filters = [
-    { title: "All" },
-    { title: "Active" },
-    { title: "Completed" },
+    { title: FilterTitleEnum.ALL },
+    { title: FilterTitleEnum.ACTIVE },
+    { title: FilterTitleEnum.COMPLETED},
   ];
 
   return (
