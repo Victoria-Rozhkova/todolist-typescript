@@ -4,11 +4,11 @@ import { purple, green } from "@mui/material/colors";
 import { Checkbox, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import EditItem from "../edit-item";
+import EditableTaskTitle from "../edit-item";
 import { getListClassName, getListItemClassName } from "./task-item.style";
 import { TaskItemProps } from "./task-item.type";
 
-const TaskItem: FC<TaskItemProps> = (props) => {
+const TaskItem: FC<TaskItemProps> = React.memo((props) => {
   const { task, onChangeIsDone, onEdit, onDelete } = props;
 
   return (
@@ -25,7 +25,7 @@ const TaskItem: FC<TaskItemProps> = (props) => {
       />
       <div className={getListItemClassName()}>
         <div className={clsx(task.isDone && "line-through opacity-[0.5]")}>
-          <EditItem title={task.task} onEdit={(value) => onEdit(value)} />
+          <EditableTaskTitle title={task.task} onEdit={(value) => onEdit(value)} />
         </div>
 
         <IconButton
@@ -39,6 +39,6 @@ const TaskItem: FC<TaskItemProps> = (props) => {
       </div>
     </li>
   );
-};
+});
 
 export default TaskItem;

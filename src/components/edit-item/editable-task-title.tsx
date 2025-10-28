@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import { EditItemProps } from "./edit-item.type";
 import { getTitleClassName } from "./edit-item.style";
 
-const EditItem: FC<EditItemProps> = ({ title, onEdit }) => {
+const EditableTaskTitle: FC<EditItemProps> = ({ title, onEdit }) => {
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(title || "");
 
@@ -41,4 +41,4 @@ const EditItem: FC<EditItemProps> = ({ title, onEdit }) => {
   );
 };
 
-export default EditItem;
+export default EditableTaskTitle;

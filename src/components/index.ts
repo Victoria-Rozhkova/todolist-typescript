@@ -1,5 +1,5 @@
 import AddItemForm from "@/components/add-item-form";
-import EditItem from "@/components/edit-item";
+import EditableTaskTitle from "@/components/edit-item";
 import Filters from "@/components/filters";
 import Todolist from "@/components/todo-list";
 import TaskItem from "@/components/task-item";
@@ -9,7 +9,7 @@ import Empty from "@/components/empty";
 
 export {
   AddItemForm,
-  EditItem,
+  EditableTaskTitle,
   Filters,
   Todolist,
   TaskItem,

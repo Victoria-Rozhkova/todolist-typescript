@@ -10,7 +10,7 @@ import { Add } from "@mui/icons-material";
 
 import { AddItemFormProps } from "./add-item-form.type";
 
-const AddItemForm: FC<AddItemFormProps> = (props) => {
+const AddItemForm: FC<AddItemFormProps> = React.memo((props) => {
   const { error, onKeyDown, onSubmit, placeholder = "" } = props;
 
   const [value, setValue] = useState<string>("");
@@ -18,7 +18,9 @@ const AddItemForm: FC<AddItemFormProps> = (props) => {
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    setErrorItem("");
+    if (errorItem) {
+      setErrorItem("");
+    }
   };
 
   const addTaskHandler = () => {
@@ -60,6 +62,6 @@ const AddItemForm: FC<AddItemFormProps> = (props) => {
       </Button>
     </div>
   );
-};
+});
 
 export default AddItemForm;

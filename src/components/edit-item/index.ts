@@ -1,3 +1,3 @@
-import EditItem from "./edit-item";
+import EditableTaskTitle from "./editable-task-title";
 
-export default EditItem;
+export default EditableTaskTitle;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Container, Grid } from "@mui/material";
 
@@ -12,10 +12,10 @@ import "@/App.css";
 function App() {
   const dispatch = useDispatch();
 
-  const addTodoList = (title: string) => {
+  const addTodoList = useCallback((title: string) => {
     const action = addTodoListActionCreator(title)
     dispatch(action)
-  };
+  }, [dispatch]);
 
   return (
       <div className="App">

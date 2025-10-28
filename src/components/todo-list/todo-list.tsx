@@ -1,16 +1,16 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import {
   AddItemForm,
   DeleteTodolist,
-  EditItem,
+  EditableTaskTitle,
   Filters,
   Tasks,
 } from "@/components";
 import { ConfirmDeleteModal } from "@/components/mui";
 import { TodolistProps } from "./todo-list.type";
-import { FilterTitleEnum, FilterEnum } from "@/types/todolist/todolist.type";
+import { FilterEnum } from "@/types/todolist/todolist.type";
 import { Task } from "@/types/task/tasks.type";
 import {
   changeTodoListFilterActionCreator,
@@ -23,7 +23,7 @@ import {
   removeTaskActionCreator
 } from "@/store/tasks-action-creators";
 
-const Todolist: FC<TodolistProps> = (props) => {
+const Todolist: FC<TodolistProps> = React.memo((props) => {
   const {
     todoListId,
     title,
@@ -37,56 +37,63 @@ const Todolist: FC<TodolistProps> = (props) => {
     useState(false);
   const [openDeletingTaskModal, setOpenDeletingTaskModal] = useState(false);
 
-  const onChangeIsDone = (isDone: boolean, taskId: string) => {
+  const onChangeIsDone = useCallback((isDone: boolean, taskId: string) => {
     const action = changeTaskStatusActionCreator(todoListId, taskId, isDone);
     dispatch(action)
-  };
+  }, [todoListId, dispatch]);
 
-  const addTaskHandler = (value: string) => {
+  const addTask = useCallback((value: string) => {
     const action = addTaskActionCreator(value, todoListId);
     dispatch(action)
-  };
+  }, [todoListId, dispatch]);
 
-  const changeFilterHandler = (filter: FilterEnum) => {
+  const changeFilterHandler = useCallback((filter: FilterEnum) => {
     const action = changeTodoListFilterActionCreator(todoListId, filter)
 
     dispatch(action);
-  };
+  }, [todoListId, dispatch]);
 
-  const onEditTaskHandler = (value: string, id: string) => {
+  const onEditTask = useCallback((value: string, id: string) => {
     const action = changeTaskActionCreator(todoListId,id,value);
 
     dispatch(action);
-  };
+  }, [todoListId, dispatch]);
 
-  const onEditHeadingHandler = (value: string) => {
-    const action = changeTodoListTitleActionCreator(todoListId,value);
+  const onEditTitle = useCallback((value: string) => {
+    const action = changeTodoListTitleActionCreator(todoListId, value);
     dispatch(action);
-  };
+  }, [todoListId, dispatch]);
 
-  const onOpenDeletingTodolistModal = () => {
+  const onOpenDeletingTodolistModal = useCallback(() => {
     setOpenDeletingTodolistModal(true);
-  };
+  }, []);
 
-  const onDeleteTask = (task: Task) => {
+  const onDeleteTask = useCallback((task: Task) => {
     const action = removeTaskActionCreator(task.id, todoListId)
     dispatch(action)
 
     setOpenDeletingTaskModal(false);
-  };
+  }, [todoListId, dispatch]);
 
-  const onDeleteTodolist = () => {
+  const onDeleteTodolist = useCallback(() => {
     const action = removeTodoListActionCreator(todoListId);
     dispatch(action);
 
     setOpenDeletingTodolistModal(false);
-  };
+  }, [todoListId, dispatch]);
 
-  const filters = [
-    { title: FilterTitleEnum.ALL },
-    { title: FilterTitleEnum.ACTIVE },
-    { title: FilterTitleEnum.COMPLETED},
-  ];
+  let taskForTodolist = tasks
+
+  if (currentFilter === FilterEnum.ACTIVE) {
+    taskForTodolist = taskForTodolist.filter(
+        (task) => !task.isDone
+    );
+  }
+  if (currentFilter === FilterEnum.COMPLETED) {
+    taskForTodolist = taskForTodolist.filter(
+        (task) => task.isDone
+    );
+  }
 
   return (
     <div
@@ -95,7 +102,7 @@ const Todolist: FC<TodolistProps> = (props) => {
       onMouseOut={() => setShow(false)}
     >
       <div className="flex gap-[10px]">
-        <EditItem title={title} onEdit={onEditHeadingHandler} />
+        <EditableTaskTitle title={title} onEdit={onEditTitle} />
         <DeleteTodolist show={show} onDelete={onOpenDeletingTodolistModal} />
         <ConfirmDeleteModal
           open={openDeletingTodolistModal}
@@ -105,22 +112,21 @@ const Todolist: FC<TodolistProps> = (props) => {
           onConfirm={onDeleteTodolist}
         />
       </div>
-      <AddItemForm onSubmit={addTaskHandler} placeholder="Add task" />
+      <AddItemForm onSubmit={addTask} placeholder="Add task" />
       <Tasks
-        tasks={tasks}
+        tasks={taskForTodolist}
         open={openDeletingTaskModal}
         setOpen={setOpenDeletingTaskModal}
-        onEdit={onEditTaskHandler}
+        onEdit={onEditTask}
         onChangeIsDone={onChangeIsDone}
         onConfirm={onDeleteTask}
       />
       <Filters
         currentFilter={currentFilter}
-        filters={filters}
         onChange={changeFilterHandler}
       />
     </div>
   );
-};
+});
 
 export default Todolist;

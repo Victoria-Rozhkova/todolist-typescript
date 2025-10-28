@@ -7,7 +7,13 @@ import {
   getFilterWrapperClassName,
 } from "./filters.style";
 
-const Filters: FC<FiltersProps> = ({ filters, currentFilter, onChange }) => {
+const Filters: FC<FiltersProps> = ({ currentFilter, onChange }) => {
+  const filters = [
+    { title: FilterTitleEnum.ALL },
+    { title: FilterTitleEnum.ACTIVE },
+    { title: FilterTitleEnum.COMPLETED},
+  ];
+
   return (
     <div className={getFilterWrapperClassName()}>
       {filters.map(({ title }) => {

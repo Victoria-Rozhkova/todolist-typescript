@@ -6,7 +6,7 @@ import { TasksProps } from "./tasks.type";
 import Empty from "../empty";
 import { Task } from "@/types/task/tasks.type";
 
-const Tasks: FC<TasksProps> = (props) => {
+const Tasks: FC<TasksProps> = React.memo((props) => {
   const { tasks, onEdit, onChangeIsDone, open, setOpen, onConfirm } = props;
 
   const [currentTask, setCurrentTask] = useState<Task | null>(null);
@@ -46,6 +46,6 @@ const Tasks: FC<TasksProps> = (props) => {
       )}
     </ul>
   );
-};
+});
 
 export default Tasks;
